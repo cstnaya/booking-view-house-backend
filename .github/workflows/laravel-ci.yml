@@ -1,0 +1,26 @@
+name: Laravel Unit Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Laravel environment by sail
+        run: ./vendor/bin/sail up -d
+
+      - name: Install dependencies
+        run: ./vendor/bin/sail composer install --no-interaction --no-progress
+
+      - name: Run Laravel unit tests
+        run: ./vendor/bin/sail artisan test
